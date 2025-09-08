@@ -6,7 +6,9 @@
 	"packageManager": "bun@1.2.21",
 	"peerDependencies": {},
 	"private": true,
-	"scripts": {},
+	"scripts": {
+		"lint:root": "biome lint"
+	},
 	"type": "module",
 	"workspaces": {
 		"catalog": {},
