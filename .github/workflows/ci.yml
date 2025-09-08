@@ -1,0 +1,41 @@
+concurrency:
+  cancel-in-progress: true
+  group: ${{ github.workflow }}-${{ github.ref }}
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Change directory to ${{ matrix.package-directory }}
+        run: cd ${{ matrix.package-directory }}
+
+      - name: Setup bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version-file: package.json
+
+      - name: Install dependencies
+        run: bun install
+
+      - name: Run biome
+        run: bun biome ci
+      
+    strategy:
+      matrix:
+        package-directory:
+          - .
+
+      fail-fast: true
+
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+
+  pull_request:
